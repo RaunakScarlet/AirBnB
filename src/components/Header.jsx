@@ -1,13 +1,14 @@
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-      <header className=" flex p-4 justify-between">
+      <header className=" flex  justify-between">
           <a href="" className="flex items-center gap-1">
               <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
                   y="0px"
-                  className="h-8 w-8"
+                  className="h-10 w-10"
                   viewBox="0 0 48 48"
               >
                   <path
@@ -17,7 +18,7 @@ const Header = () => {
               </svg>
               <span className="font-bold">AirBnB</span>
           </a>
-          <div className="flex gap-4 border border-gray-300  rounded-full px-4 py-2 shadow-md shadow-gray-300">
+          <div className="flex gap-4 border border-gray-300  rounded-full px-4 py-3 shadow-md shadow-gray-300">
               <div className="">Anywhere</div>
               <div className="border-l border-gray-300"></div>
               <div className="">Anyweek</div>
@@ -41,7 +42,7 @@ const Header = () => {
                   </svg>
               </button>
           </div>
-          <div className="flex  border border-gray-300  rounded-full px-4 items-center gap-2  ">
+          <Link to='/login' className="flex  border border-gray-300  rounded-full px-4 items-center gap-2  ">
               <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -68,7 +69,7 @@ const Header = () => {
                       />
                   </svg>
               </div>
-          </div>
+          </Link>
       </header>
   );
 }

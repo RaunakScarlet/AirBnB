@@ -7,8 +7,8 @@ const Login = () => {
           <div className="-mt-64">
               <h1 className="text-4xl text-center mb-4">Login</h1>
               <form className=" max-w-md mx-auto">
-                  <input type="email" placeholder="email" id="" />
-                  <input type="password" placeholder="password" id="" />
+                  <input type="email" placeholder="email"/>
+                  <input type="password" placeholder="password"/>
                   <button className="primary">Login</button>
                   <div className="flex justify-center">
                       <h1 className="inline text-gray-500 text-center">

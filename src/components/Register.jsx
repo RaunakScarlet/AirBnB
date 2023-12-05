@@ -7,13 +7,18 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const registerUser = (e) => {
+    const registerUser = async(e) => {
         e.preventDefault();
-        axios.post('/register', {
+      try {
+        await axios.post("/register", {
             name,
             email,
-            password
-        })
+            password,
+        });
+        alert("Registration Successful");
+      } catch (error) {
+        alert("Registration Unsuccessful");
+      } 
     }
     return (
         <div className="mt-4 flex items-center min-h-screen justify-center">

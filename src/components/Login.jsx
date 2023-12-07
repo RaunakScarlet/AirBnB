@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
+import { userProfile } from "../store/userSlice";
 
 
 
@@ -8,15 +10,17 @@ const Login = () => {
    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [redirect, setRedirect] = useState(false);
+    const dispatch = useDispatch();
     
     const loginUser = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("/login", {
+        const response = await axios.post("/login", {
                 email,
                 password,
-            });
-            alert("Login Successful");
+        });
+
+            dispatch(userProfile(response.data));
             setRedirect(true);
         } catch (error) {
             alert("Login Unsuccessful");
@@ -24,8 +28,9 @@ const Login = () => {
     };
 
     if (redirect) {
-       return  <Navigate to={'/'}/>
+       return <Navigate to={"/"} />;
     }
+   
         return (
             <div className="mt-4 flex items-center min-h-screen justify-center">
                 <div className="-mt-64">

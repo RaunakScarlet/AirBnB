@@ -1,9 +1,12 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+
+  const userInfo = useSelector(store => store.userInfo);
   return (
-      <header className=" flex  justify-between">
-          <a href="" className="flex items-center gap-1">
+      <header className=" flex justify-between">
+          <Link to={'/'}  className="flex items-center gap-1">
               <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
@@ -17,7 +20,7 @@ const Header = () => {
                   ></path>
               </svg>
               <span className="font-bold">AirBnB</span>
-          </a>
+          </Link>
           <div className="flex gap-4 border border-gray-300  rounded-full px-4 py-3 shadow-md shadow-gray-300">
               <div className="">Anywhere</div>
               <div className="border-l border-gray-300"></div>
@@ -42,7 +45,10 @@ const Header = () => {
                   </svg>
               </button>
           </div>
-          <Link to='/login' className="flex  border border-gray-300  rounded-full px-4 items-center gap-2  ">
+          <Link
+              to={ userInfo?.user?.name?"/account":"/login"}
+              className="flex  border border-gray-300  rounded-full px-4 items-center gap-2  "
+          >
               <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -69,6 +75,7 @@ const Header = () => {
                       />
                   </svg>
               </div>
+              {userInfo?.user?.name && <div>{ userInfo.user.name}</div>}
           </Link>
       </header>
   );

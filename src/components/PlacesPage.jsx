@@ -1,9 +1,34 @@
 
+import axios from 'axios';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import IndexPage from './IndexPage';
 const PlacesPage = () => {
 
     let { action } = useParams();
-    console.log(action);
+    
+    const [title, setTitle] = useState("");
+    const [address, setAddress] = useState("");
+    const [addedPhotos, setAddedPhotos] = useState([]);
+    const [photoLink, setPhotoLink] = useState("");
+    const [description, setDiscription] = useState("");
+    const [perks, setPerks] = useState([]);
+    const [extraInfo, setExtraInfo] = useState("");
+    const [chekin, setCheckin] = useState("");
+    const [checkout, setCheckout] = useState("");
+    const [maxGuest, setMaxGuest] = useState(10);
+
+    async function addPhotoByLink(e) {
+        e.preventDefault();
+      const {data:fileName} = await axios.post("/uploadByLink", {
+            link:photoLink
+      });
+        setAddedPhotos((prev) => [...prev, fileName]);
+        setPhotoLink('')
+    }
+
+
+   
   return (
       <div>
           {action !== "new" && (
@@ -40,50 +65,63 @@ const PlacesPage = () => {
                       <input
                           type="text"
                           placeholder="title, for example My appartment"
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
                       />
                       <h2 className="mt-4 text-2xl">Address</h2>
                       <p className="text-sm text-gray-500">
                           Address to this place
                       </p>
-                      <input type="text" placeholder="address" />
+                      <input
+                          type="text"
+                          placeholder="address"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                      />
                       <h2 className="mt-4 text-2xl">Photos</h2>
                       <p className="text-sm text-gray-500">
                           add more than 2 photos
                       </p>
-                      <div className="flex">
+                      <div className="flex gap-2">
                           <input
                               className=""
                               type="text"
                               placeholder="add using link"
+                              value={photoLink}
+                              onChange={(e) => setPhotoLink(e.target.value)}
                           />
-                          <button className="w-32 bg-primary text-white rounded-2xl  px-2 ">
+
+                          <button
+                              className="w-32 bg-primary text-white rounded-2xl  px-2 "
+                              onClick={(e) => addPhotoByLink(e)}
+                          >
                               Add photo
                           </button>
                       </div>
-                      <div className="mt-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                          <button className="flex justify-center gap-2 items-center border bg-transparent rounded-2xl p-8 text-2xl text-gray-600">
-                              <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="1.5"
-                                  stroke="currentColor"
-                                  className="w-6 h-6"
-                              >
-                                  <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                                  />
-                              </svg>
-                              Upload
-                          </button>
+                      <div className="mt-2  grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                          {addedPhotos.length > 0 &&
+                              addedPhotos.map((photo, index) => (
+                                  <div className='h-32  flex' key={index}>
+                                      <img
+                                          className="p-2 w-full object-cover rounded-xl"
+                                          src={
+                                              "http://localhost:4000/uploads/" +
+                                              photo
+                                          }
+                                          alt={photo}
+                                      />
+                                  </div>
+                              ))}
+                         
                       </div>
                       <h2 className="mt-4 text-2xl">Description</h2>
                       <p className="text-sm text-gray-500">
                           Add details of the place
                       </p>
-                      <textarea />
+                      <textarea
+                          value={description}
+                          onChange={(e) => setDiscription(e.target.value)}
+                      />
                       <h2 className="mt-4 text-2xl">Perks</h2>
                       <p className="text-sm text-gray-500">
                           select all the perks
@@ -246,7 +284,10 @@ const PlacesPage = () => {
                       </div>
                       <h2 className="mt-4 text-2xl">Extra Informations</h2>
                       <p className="text-sm text-gray-500">Eg. rules...</p>
-                      <textarea />
+                      <textarea
+                          value={extraInfo}
+                          onChange={(e) => setExtraInfo(e.target.value)}
+                      />
                       <h2 className="mt-4 text-2xl">Check In & Out times</h2>
                       <p className="text-sm text-gray-500">
                           add check in and check out times, remember to have
@@ -255,19 +296,31 @@ const PlacesPage = () => {
                       <div className="gap-2 grid sm:grid-col-3">
                           <div>
                               <h3 className="mt-2 -mb-1">Check In time</h3>
-                              <input type="text" />
+                              <input
+                                  type="text"
+                                  value={chekin}
+                                  onChange={(e) => setCheckin(e.target.value)}
+                              />
                           </div>
                           <div>
                               <h3 className="mt-2 -mb-1">Check Out time</h3>
-                              <input type="text" />
+                              <input
+                                  type="text"
+                                  value={checkout}
+                                  onChange={(e) => setCheckout(e.target.value)}
+                              />
                           </div>
                           <div>
                               <h3 className="mt-2 -mb-1">Max no. of guests</h3>
-                              <input type="text" />
+                              <input
+                                  type="number"
+                                  value={maxGuest}
+                                  onChange={(e) => setMaxGuest(e.target.value)}
+                              />
                           </div>
                       </div>
                       <div>
-                          <button className='primary my-4'>Save</button>
+                          <button className="primary my-4">Save</button>
                       </div>
                   </form>
               </div>
